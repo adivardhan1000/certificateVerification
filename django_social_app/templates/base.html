@@ -1,26 +1,64 @@
-<!-- templates/base.html -->
-
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous" />
-    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
-    <title>Social Auth with Django</title>
-</head>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 <body>
-    <div class="container-fluid">
-        <div>
-            <h1 class="text-white text-center">{% block title %}{% endblock %}</h1>
-            <div class="card p-5">
+
+
+<!-- Side Navigation -->
+<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+    <h1 class="w3-xxxlarge w3-text-theme">verifyCertify</h1>
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+    <a href="login" class="w3-bar-item w3-button">Create Certificates</a>
+    <a href="check" class="w3-bar-item w3-button">Verify Certificate</a>
+    <a href="about" class="w3-bar-item w3-button">About</a>
+    <a href="contact" class="w3-bar-item w3-button">Contact</a>
+</nav>
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+    <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+    <div class="w3-center">
+        <h4>create and verify certificates for local events</h4>
+        {% block title %}
+        <h1 class="w3-xxxlarge w3-animate-bottom">verifyCertify</h1>
+        <div class="w3-padding-32">
+            <a href="check">
+                <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey"
+                        onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">Verify
+                    your certificate
+                </button>
+            </a>
+            <a href="login">
+                <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey"
+                        onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">Create
+                    verified certificates
+                </button>
+            </a>
+        </div>
+        {% endblock %}
+    </div>
+</header>
+<script>
+    // Side navigation
+
+        function w3_open() {
+        var x = document.getElementById("mySidebar");
+        x.style.width = "100%";
+        x.style.fontSize = "40px";
+        x.style.paddingTop = "10%";
+        x.style.display = "block";
+    }
+        function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+
+</script>
                 {% block content %}
                 {% endblock %}
-            </div>
-        </div>
-    </div>
 </body>
 </html>
