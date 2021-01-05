@@ -12,6 +12,18 @@ def login(request):
 def welcome(request):
   return render(request, 'welcome.html')
 
+def check(request):
+  return render(request, 'check.html')
+
+def checking(request):
+  return render(request, 'checking.html')
+
 @login_required
 def home(request):
   return render(request, 'afterLogin.html')
+
+def institutelogin(request):
+  return render(request, 'institutelogin.html')
+
+def institutelogincheck(request):
+  return render(request, 'institutelogin.html')
