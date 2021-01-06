@@ -22,12 +22,18 @@ from django.contrib.auth import views as auth_views
 from django_social_app import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls), path("login/", views.login, name="login"),
+    path('admin/', admin.site.urls),
+    path("login/", views.login, name="login"),
+    #path("afterlogin/", views.login, name="afterlogin"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('social-auth/', include('social_django.urls', namespace="social")),
     path("home/", views.home, name="home"),
     path("check/", views.check, name="check"),
-    path("checking/", views.checking, name="checking"),
+    path("checking/", views.check, name="checking"),
     path("institutelogin/", views.institutelogin, name="institutelogin"),
+    path("instituteregister/", views.instituteregister, name="instituteregister"),
     path("", views.welcome, name="welcome"),
 ]
+
+handler404 = 'django_social_app.views.page_not_found'
+handler500 = 'django_social_app.views.internal_server_error'

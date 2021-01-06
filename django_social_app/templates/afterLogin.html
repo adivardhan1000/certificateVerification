@@ -17,8 +17,7 @@
 
                     {% if ass.provider == 'facebook' %}
                         <div class="col-md-6 text-center">
-                            <img src="{{ ass.extra_data.picture.data.url }}" alt="" width="150" height="150"
-                                 style="border-radius: 50%">
+                            <img src="{{ ass.extra_data.picture.data.url }}" alt="" width="150" height="150" style=" border-radius: 50%">
                         </div>
                         <div class="col-md-6 social-container my-2"><p><b>Signed in via: </b> {{ ass.provider }} </p>
                             <p><b>Name: </b> {{ ass.extra_data.name }} </p>
@@ -31,6 +30,8 @@
                         <a href="{% url 'logout' %}">Logout</a>
                     </button>
                 </div>
+
+
                 <br><br><br><br><br><br><br>
                 <!-- End here -->
             </div>

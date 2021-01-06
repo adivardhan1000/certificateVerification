@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -23,10 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'wx!u&ssqwrjs$sdu69tj&l(jh8=%38vr7_*@3e#85f9sf=2tgd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -79,17 +77,24 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = 'certificateVerification.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'verifyCertify',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost'
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -109,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -123,12 +127,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
@@ -138,17 +140,17 @@ LOGOUT_REDIRECT_URL = 'welcome'
 SOCIAL_AUTH_FACEBOOK_KEY = '2827384690807483'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'ab4b4434770ca224dcdae1dcccb41117'
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] # add this
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
-  'fields': 'id, name, email, picture.type(large), link'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']  # add this
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {  # add this
+    'fields': 'id, name, email, picture.type(large), link'
 }
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [  # add this
     ('name', 'name'),
     ('email', 'email'),
     ('picture', 'picture'),
     ('link', 'profile_url'),
 ]
 
-
 SOCIAL_AUTH_GITHUB_KEY = 'bdf3365e9568e45a6db6'
 SOCIAL_AUTH_GITHUB_SECRET = 'f0a550bdffa159d0b786fc2a2c62e5536ad26cb2'
+

@@ -3,19 +3,21 @@
 {% extends 'base.html' %}
 {% block title %} <h1>Institute Login</h1> {% endblock %}
 {% block content %}
-    <div class="w3-container">
-        <div class="w3-padding-32 w3-center">
-            <form class="w3-container w3-card-4" action="/institutelogincheck/" method="post">
 
+    <div class="w3-row-padding w3-center w3-margin-top">
+        <div class="w3-third"><p></p></div>
+        <div class="w3-third">
+            <form class="w3-container w3-card-4" action="/institutelogin/" method="post">
+                {% csrf_token %}
 
                 <div class="w3-section">
 
                     <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required><br>
+                    <input  class="w3-input w3-center" type="text"  name="uname" required><br>
                 </div>
                 <div class="w3-section">
                     <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required><br>
+                    <input  class="w3-input w3-center" type="password"  name="psw" required><br>
                 </div>
                 <div class="w3-section">
                     <button type="submit" value="Submit">Login</button>
@@ -23,7 +25,7 @@
 
             </form>
             <div class="w3-section" style="background-color:#f1f1f1">
-                <a href="#">Not registered? Sign Up!</a>
+                <a href="/instituteregister/">Not registered? Sign Up!</a>
             </div>
         </div>
     </div>
