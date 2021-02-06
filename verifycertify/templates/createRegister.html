@@ -1,0 +1,81 @@
+<!-- templates/createRegister.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="w3-row-padding w3-center w3-margin-top">
+        <div class="w3-third"><p></p></div>
+        <div class="w3-third">
+            <form class="w3-container w3-card-4" action="/create/register/" method="post">
+                {% csrf_token %}
+                <div class="w3-section">
+                    <label ><b>First Name:</b></label>
+                    <input class="w3-input w3-center" type="text" name="first_name" required>
+                </div>
+<div class="w3-section">
+                    <label ><b>Last Name:</b></label>
+                    <input class="w3-input w3-center" type="text" name="last_name" required>
+                </div>
+
+                <div class="w3-section">
+                    <label ><b>Username:</b></label>
+                    <input class="w3-input w3-center" type="text"  name="username" required>
+                </div>
+
+                <div class="w3-section">
+                    <label ><b>Contact email:</b></label>
+                    <input class="w3-input w3-center" type="text"  name="email" required>
+                </div>
+
+                <div class="w3-section">
+                    <label ><b>Contact number:</b></label>
+                    <input class="w3-input w3-center" type="number"  name="mobile" minlength="10" maxlength="10" required>
+                </div>
+
+
+                <div class="w3-row w3-section">
+                  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+                    <div class="w3-rest">
+                      <select class="w3-input w3-border" name="instituteName" type="text" placeholder="Institute Name">
+                          {% for institute in data %}
+                        <option value="{{ institute.0 }}">{{ institute.0 }}</option>
+                          {% endfor %}
+                      </select>
+
+                    </div>
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope-o"></i></div>
+                      <div class="w3-rest">
+                          Upload College ID
+                        <input class="w3-input w3-border" type="file" id="myFile" name="idproof"  required>
+                      </div>
+                  </div>
+
+
+                <div class="w3-section">
+                    Use a strong password which contains at least one number and one uppercase and lowercase letter, and at least 8 or more characters<br>
+                    <label ><b>Password:</b></label>
+                    <input class="w3-input w3-center" type="password"  name="password1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required>
+                </div>
+
+                <div class="w3-section">
+                    <label for="psw"><b>Re-enter Password:</b></label>
+                    <input class="w3-input w3-center" type="password"  name="password2" required>
+                </div>
+
+                <div class="w3-section">
+                    <button type="submit" value="Submit">Register</button>
+                </div>
+
+            </form>
+
+            <div class="w3-section" style="background-color:#f1f1f1">
+                <a href="/create/login">Registered already? Login!</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

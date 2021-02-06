@@ -19,21 +19,36 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from django_social_app import views
+from verifycertify import views
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("login/", views.login, name="login"),
-    #path("afterlogin/", views.login, name="afterlogin"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path('social-auth/', include('social_django.urls', namespace="social")),
-    path("home/", views.home, name="home"),
-    path("check/", views.check, name="check"),
-    path("checking/", views.check, name="checking"),
-    path("institutelogin/", views.institutelogin, name="institutelogin"),
-    path("instituteregister/", views.instituteregister, name="instituteregister"),
-    path("", views.welcome, name="welcome"),
-]
+    # path('admin/', admin.site.urls),
 
-handler404 = 'django_social_app.views.page_not_found'
-handler500 = 'django_social_app.views.internal_server_error'
+    # path("afterlogin/", views.create, name="afterlogin"),
+    # path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    # path('social-auth/', include('social_django.urls', namespace="social")),
+    # path("getprofiledata/",views.getprofiledata,name="getprofiledata"),
+    # path("home/", views.home, name="home"),
+    # path("check/", views.check, name="check"),
+    # path("checking/", views.check, name="checking"),
+path('admin/', admin.site.urls),
+    path("", views.welcome, name="welcome"),
+path("create/", views.create, name="create"),
+path("create/login/", views.createLogin, name="createLogin"),
+path("create/register/", views.createRegister, name="createRegister"),
+path("create/dashboard/", views.createDashboard, name="createDashboard"),
+
+path("institute/login/", views.instituteLogin, name="instituteLogin"),
+    path("institute/register/", views.instituteRegister, name="instituteRegister"),
+path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
+path("logout/", views.logout,name="logout"),
+path("verify/", views.verify, name="verify"),
+]
+#
+# handler404 = 'django_social_app.views.page_not_found'
+# handler500 = 'django_social_app.views.internal_server_error'
+#
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

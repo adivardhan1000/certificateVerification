@@ -5,13 +5,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from .models import profiledata
+#from soc.pipeline.partial import partial
 
 
 # Create your views here.
-def login(request):
+def create(request):
     #if request.method == "POST":
     #    return render(request, 'afterLogin.html')
-    return render(request, 'login.html')
+    return render(request, 'create.html')
 
 
 def welcome(request):
@@ -26,9 +28,45 @@ def check(request):
 
 # def checking(request):
 #  return render(request, 'checking.html')
+def getprofiledata(request):
+    return render(request,'createCertificates/profile.html')
 
 @login_required
 def home(request):
+    '''
+    checked = 0
+    data = []
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        registeredemail = request.POST['registeredemail']
+        mobile = request.POST['mobile']
+        instname = request.POST['instname']
+        idproof = request.POST['']
+        new_user = profiledata.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            registeredemail=registeredemail,
+            mobile=mobile,
+            instname=instname,
+            idproof=idproof
+        )
+        new_user.save()
+        print('Profile saved')
+        return render(request, 'afterLogin.html')
+    print(request.user.last_login)
+
+    if request.user.last_login is None:
+
+        data = [request.user.first_name,request.user.last_name,request.user.email]
+        context = {
+        }
+        context['data'] = data
+        return render(request, 'createCertificates/profile.html',context)
+    else:
+    '''
     return render(request, 'afterLogin.html')
 
 def page_not_found(request,exception):

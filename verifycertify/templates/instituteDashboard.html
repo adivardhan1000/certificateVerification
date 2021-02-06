@@ -1,0 +1,22 @@
+<!-- templates/login.html -->
+
+ {% extends 'base.html' %}
+
+ {% block content %}
+
+      {% if user.is_authenticated %}
+		<h2>
+			<li>Hello, {{user.first_name}}</li>
+		</h2>
+		<h2>
+			<li><a href="/logout">Logout</a></li>
+		</h2>
+    {% else %}
+ <div class="row">
+     <div class="col-md-8 mx-auto social-container my-2 order-md-1">
+         Not authenticated.
+     </div>
+ </div>
+ </div>
+        {% endif %}
+ {% endblock %}
