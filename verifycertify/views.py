@@ -105,15 +105,16 @@ def instituteLogin(request):
         print('+++++++++++++++', user)
         if user is not None:
             auth.login(request, user)
-            authValue = extraProfileData.objects.get(user_id=request.user.id)
-            if authValue.authLevel == '2':
+            details = extraProfileData.objects.get(pk=request.user.id)
+            if details.authLevel == 2:
                 print('=========================')
                 return redirect(instituteDashboard)
             else:
                 return redirect(logout)
         else:
             messages.info(request, 'Invalid')
-            return redirect(instituteLogin)
+            return render(request, 'institutelogin.html',{
+                    'error_message': ' Login Failed! Enter the username and password correctly', })
     else:
         return render(request, 'institutelogin.html')
 
@@ -158,7 +159,9 @@ def instituteRegister(request):
 
 @login_required(login_url='/institute/login')
 def instituteDashboard(request):
-    return render(request, 'instituteDashboard.html')
+    extraData = extraProfileData.objects.get(pk=request.user.id)
+    context={'data':extraData}
+    return render(request, 'instituteDashboard.html',context)
 
 
 def verify(request):
@@ -187,5 +190,11 @@ def authenticateInstitute(request):
         operation, userID = submitValue.split(" ")
         extraProfileData.objects.update()
         print(operation, userID, "==============")
+        if operation == "Approve":
+            extraProfileData.objects.filter(pk=userID).update(approved=1)
+        elif operation == "Deny":
+            extraProfileData.objects.filter(pk=userID).update(approved=2)
+        elif operation == "TempDeny":
+            extraProfileData.objects.filter(pk=userID).update(approved=0)
         return redirect(authenticateInstitute)
     return render(request, 'authenticateInstitute1.html', context)

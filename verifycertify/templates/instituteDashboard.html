@@ -1,7 +1,10 @@
 <!-- templates/login.html -->
 
- {% extends 'afterAuthenticationBase.html' %}
-
- {% block content %}
-
- {% endblock %}
+{% extends 'afterAuthenticationBase.html' %}
+{% block content %}
+    {% if data.approved == 1 %}
+    <h1 class="w3-teal w3-center">Approved</h1>
+    {% else %}
+    <h1 class="w3-red w3-center">Not Approved. Please get in touch with the administrator.</h1>
+    {% endif %}
+{% endblock %}
