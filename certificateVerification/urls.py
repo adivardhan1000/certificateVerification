@@ -34,19 +34,21 @@ urlpatterns = [
     # path("home/", views.home, name="home"),
     # path("check/", views.check, name="check"),
     # path("checking/", views.check, name="checking"),
-path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path("", views.welcome, name="welcome"),
-path("create/", views.create, name="create"),
-path("create/login/", views.createLogin, name="createLogin"),
-path("create/register/", views.createRegister, name="createRegister"),
-path("create/dashboard/", views.createDashboard, name="createDashboard"),
+    path("create/", views.create, name="create"),
+    path("create/login/", views.createLogin, name="createLogin"),
+    path("create/register/", views.createRegister, name="createRegister"),
+    path("create/dashboard/", views.createDashboard, name="createDashboard"),
 
-path("institute/login/", views.instituteLogin, name="instituteLogin"),
+    path("institute/login/", views.instituteLogin, name="instituteLogin"),
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
-path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
-path("logout/", views.logout,name="logout"),
-    path("authenticateInstitute/",views.authenticateInstitute,name="authenticateInstitute"),
-path("verify/", views.verify, name="verify"),
+    path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
+
+    path("logout/", views.logout, name="logout"),
+    path("authenticateInstitute/", views.authenticateInstitute, name="authenticateInstitute"),
+    path("verify/", views.verify, name="verify"),
+    path("error/", views.error,name="error")
 ]
 #
 # handler404 = 'django_social_app.views.page_not_found'

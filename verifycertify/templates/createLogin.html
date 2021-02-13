@@ -7,6 +7,9 @@
         <div class="w3-third"><p></p></div>
         <div class="w3-third">
             <form class="w3-container w3-card-4" action="/create/login/" method="post">
+                {% if error_message %}
+                <h3 class="w3-red w3-center">{{ error_message }}</h3>
+            {% endif %}
                 {% csrf_token %}
 
                 <div class="w3-section">

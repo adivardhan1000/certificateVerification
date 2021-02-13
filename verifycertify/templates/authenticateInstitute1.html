@@ -24,7 +24,27 @@
                 <td>{{ user.2 }}</td>
                 <td>{{ user.3 }}</td>
                 <td>{{ user.4 }}</td>
-                <td>{{ user.5 }}</td>
+                <td>
+
+
+                    <div class="w3-container">
+                        <button onclick="document.getElementById('{{ user.0 }}').style.display='block'"
+                                class="w3-button w3-black">View ID
+                        </button>
+
+                        <div id="{{ user.0 }}" class="w3-modal">
+                            <div class="w3-modal-content">
+                                <div class="w3-container">
+                                    <span onclick="document.getElementById('{{ user.0 }}').style.display='none'"
+                                          class="w3-button w3-display-topright">&times;</span>
+                                    <img src="{{ user.5 }}" width="50%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>
                 {% if user.6 == 0 %}
                     <td>Pending</td>
                     <td>
@@ -41,38 +61,29 @@
                 {% elif user.6 == 1 %}
                     <td>Approved</td>
                     <td>
-                    <form action="." method="POST">
+                        {% comment %}<form action="." method="POST">
                         {% csrf_token %}
                         <input type="submit" name="action" value="{{ "Deny " }}{{ user.0 }}">
-                    </form>
-                    <form action="." method="POST">
-                        {% csrf_token %}
-                        <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
-                        </td>
+                    </form>{% endcomment %}
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
+                    </td>
                     </form>
 
                 {% elif user.6 == 2 %}
                     <td> Denied</td>
                     <td>
-                    <form action="." method="POST">
-                        {% csrf_token %}
-                        <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
-                    </form>
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
+                        </form>
                     </td>
                 {% endif %}
                 <td></td>
             </tr>
         {% endfor %}
-        <tr class="w3-white">
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-        </tr>
-        <tr>
-            <td>Adam</td>
-            <td>Johnson</td>
-            <td>67</td>
-        </tr>
+
         </tbody>
     </table>
     {#    {% endif %}#}

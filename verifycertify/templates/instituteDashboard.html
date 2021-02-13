@@ -2,9 +2,86 @@
 
 {% extends 'afterAuthenticationBase.html' %}
 {% block content %}
-    {% if data.approved == 1 %}
-    <h1 class="w3-teal w3-center">Approved</h1>
+    {% if authUser.approved == 1 %}
+        <h1 class="w3-teal w3-center">Approved</h1>
     {% else %}
-    <h1 class="w3-red w3-center">Not Approved. Please get in touch with the administrator.</h1>
+        <h1 class="w3-red w3-center">Not Approved. Please get in touch with the administrator.</h1>
     {% endif %}
+    <table class="w3-table w3-striped w3-bordered">
+        <thead>
+        <tr class="w3-theme">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>E-mail</th>
+            <th>Contact No.</th>
+            <th>Id Proof</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in data %}
+            <tr>
+                <td>{{ user.1 }}</td>
+                <td>{{ user.2 }}</td>
+                <td>{{ user.3 }}</td>
+                <td>{{ user.4 }}</td>
+                <td>
+                    <div class="w3-container">
+                        <button onclick="document.getElementById('{{ user.0 }}').style.display='block'"
+                                class="w3-button w3-black">View ID
+                        </button>
+
+                        <div id="{{ user.0 }}" class="w3-modal">
+                            <div class="w3-modal-content">
+                                <div class="w3-container">
+                                    <span onclick="document.getElementById('{{ user.0 }}').style.display='none'"
+                                          class="w3-button w3-display-topright">&times;</span>
+                                    <img src="{{ user.5 }}" width="50%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                {% if user.6 == 0 %}
+                    <td>Pending</td>
+                    <td>
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            {#                            <input type="submit" name="action" value="approve" />#}
+                            <input type="submit" name="action" value="{{ "Approve " }}{{ user.0 }}">
+                        </form>
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="submit" name="action" value="{{ "Deny " }}{{ user.0 }}">
+                        </form>
+                    </td>
+                {% elif user.6 == 1 %}
+                    <td>Approved</td>
+                    <td>
+                        {% comment %}<form action="." method="POST">
+                        {% csrf_token %}
+                        <input type="submit" name="action" value="{{ "Deny " }}{{ user.0 }}">
+                    </form>{% endcomment %}
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
+                    </td>
+                    </form>
+
+                {% elif user.6 == 2 %}
+                    <td> Denied</td>
+                    <td>
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
+                        </form>
+                    </td>
+                {% endif %}
+                <td></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
 {% endblock %}
