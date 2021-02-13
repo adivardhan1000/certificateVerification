@@ -12,4 +12,4 @@ class extraProfileData(models.Model):
     mobile = models.CharField(max_length=10)
     instituteName = models.CharField(max_length=10)
     idproof = models.FileField(upload_to='media/')
-    approved = models.BooleanField(default=False)
+    approved = models.CharField(max_length=1, choices=[(0, 'pending'), (1,'approved'), (2,'rejected')],default=0)

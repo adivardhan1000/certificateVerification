@@ -45,6 +45,7 @@ path("institute/login/", views.instituteLogin, name="instituteLogin"),
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
 path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
 path("logout/", views.logout,name="logout"),
+    path("authenticateInstitute/",views.authenticateInstitute,name="authenticateInstitute"),
 path("verify/", views.verify, name="verify"),
 ]
 #
