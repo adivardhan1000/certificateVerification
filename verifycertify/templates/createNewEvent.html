@@ -1,0 +1,100 @@
+{% extends 'afterAuthenticationBase.html' %}
+{% block content %}
+This is the event page
+     <div class="w3-row-padding w3-center w3-margin-top">
+        <div class="w3-third"><p></p></div>
+        <div class="w3-third">
+            <form class="w3-container w3-card-4" action="/create/dashboard/newEvent/" method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="w3-section">
+                    <label ><b>Event Name:</b></label>
+                    <input class="w3-input w3-center" type="text" name="eventName" required>
+                </div>
+                <div class="w3-section">
+                    <label ><b>Event Description:</b></label>
+                    <input class="w3-input w3-center" type="text" name="eventDescription" required>
+                </div>
+
+                <div class="w3-section">
+                    <label ><b>Date:</b></label>
+                    <input class="w3-input w3-center" type="date"  name="eventDate" required>
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge"></i></div>
+                      <div class="w3-rest">
+                         <label ><b>Proof 1:</label ></b></label ></b>
+                        <input class="w3-input w3-border" type="file" id="myFile" name="proof1"  required>
+                      </div>
+                  </div>
+
+                <div class="w3-section">
+                    <label ><b>Proof 1 Authorised By:</b></label>
+                    <input class="w3-input w3-center" type="text" name="proof1AuthorisedBy" required>
+                </div>
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge "></i></div>
+                      <div class="w3-rest">
+                         <label ><b>Proof 2:</label ></b>
+                        <input class="w3-input w3-border" type="file" id="myFile" name="proof2" >
+                      </div>
+                  </div>
+
+                <div class="w3-section">
+                    <label ><b>Proof 2 Authorised By:</b></label>
+                    <input class="w3-input w3-center" type="text" name="proof2AuthorisedBy">
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge "></i></div>
+                      <div class="w3-rest">
+                         <label ><b>Proof 3:</label ></b>
+                        <input class="w3-input w3-border" type="file" id="myFile" name="proof3" >
+                      </div>
+                  </div>
+
+                <div class="w3-section">
+                    <label ><b>Proof 3 Authorised By:</b></label>
+                    <input class="w3-input w3-center" type="text" name="proof3AuthorisedBy">
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge "></i></div>
+                      <div class="w3-rest">
+                         <label ><b>Proof 4:</label ></b>
+                        <input class="w3-input w3-border" type="file" id="myFile" name="proof4" >
+                      </div>
+                  </div>
+
+                <div class="w3-section">
+                    <label ><b>Proof 4 Authorised By:</b></label>
+                    <input class="w3-input w3-center" type="text" name="proof4AuthorisedBy">
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge "></i></div>
+                      <div class="w3-rest">
+                         <label ><b>Proof 5:</label ></b>
+                        <input class="w3-input w3-border" type="file" id="myFile" name="proof5" >
+                      </div>
+                  </div>
+
+                <div class="w3-section">
+                    <label ><b>Proof 5 Authorised By:</b></label>
+                    <input class="w3-input w3-center" type="text" name="proof5AuthorisedBy">
+                </div>
+
+                 <div class="w3-section">
+                    <label ><b>Total Participants:</b></label>
+                    <input class="w3-input w3-center" type="number" name="totalParticipants">
+                </div>
+
+                <div class="w3-section">
+                    <button type="submit" value="Submit">Create Event</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

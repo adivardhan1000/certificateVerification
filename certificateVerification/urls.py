@@ -39,6 +39,8 @@ urlpatterns = [
     path("create/login/", views.createLogin, name="createLogin"),
     path("create/register/", views.createRegister, name="createRegister"),
     path("create/dashboard/", views.createDashboard, name="createDashboard"),
+    path("create/dashboard/newEvent/", views.createNewEvent, name="createNewEvent"),
+    path("create/dashboard/manageEvent/", views.createManageEvent, name="createManageEvent"),
 
     path("institute/login/", views.instituteLogin, name="instituteLogin"),
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
