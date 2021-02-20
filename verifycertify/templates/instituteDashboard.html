@@ -2,11 +2,8 @@
 
 {% extends 'afterAuthenticationBase.html' %}
 {% block content %}
-    {% if authUser.approved == 1 %}
-        <h1 class="w3-teal w3-center">Approved</h1>
-    {% else %}
-        <h1 class="w3-red w3-center">Not Approved. Please get in touch with the administrator.</h1>
-    {% endif %}
+    <br>
+    <div class="container w3-responsive">
     <table class="w3-table w3-striped w3-bordered">
         <thead>
         <tr class="w3-theme">
@@ -48,12 +45,11 @@
                     <td>
                         <form action="." method="POST">
                             {% csrf_token %}
-                            {#                            <input type="submit" name="action" value="approve" />#}
-                            <input type="submit" name="action" value="{{ "Approve " }}{{ user.0 }}">
+                            <input class="button w3-green" type="submit" name="action" value="{{ "Approve " }}{{ user.0 }}">
                         </form>
                         <form action="." method="POST">
                             {% csrf_token %}
-                            <input type="submit" name="action" value="{{ "Deny " }}{{ user.0 }}">
+                            <input class="button w3-red" type="submit" name="action" value="{{ "Deny " }}{{ user.0 }}">
                         </form>
                     </td>
                 {% elif user.6 == 1 %}
@@ -65,7 +61,7 @@
                     </form>{% endcomment %}
                         <form action="." method="POST">
                             {% csrf_token %}
-                            <input type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
+                            <input class="button w3-orange" type="submit" name="action" value="{{ "TempDeny " }}{{ user.0 }}">
                     </td>
                     </form>
 
@@ -78,10 +74,12 @@
                         </form>
                     </td>
                 {% endif %}
-                <td></td>
+
             </tr>
         {% endfor %}
 
         </tbody>
     </table>
+
+    </div>
 {% endblock %}

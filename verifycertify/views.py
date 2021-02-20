@@ -7,9 +7,11 @@ from verifycertify.models import extraProfileData
 from django.conf import settings
 from .forms import UploadFileForm
 from django.core.files.storage import FileSystemStorage
-
+import verifycertify.decorators
 
 # Create your views here.
+
+
 def welcome(request):
     return render(request, 'welcome.html')
 
@@ -41,11 +43,11 @@ def createLogin(request):
             return render(request, 'createLogin.html', {
                 'error_message': ' Login Failed! Enter the username and password correctly', })
     else:
-        return render(request, 'createLogin.html',)
+        return render(request, 'createLogin.html', )
 
 
 def createRegister(request):
-    instituteNames = extraProfileData.objects.values_list('instituteName').filter(authLevel=2,approved=1)
+    instituteNames = extraProfileData.objects.values_list('instituteName').filter(authLevel=2, approved=1)
     print(instituteNames[0][0])
     context = {
         'data': instituteNames,
@@ -75,7 +77,8 @@ def createRegister(request):
                 user = User.objects.create_user(username=username, password=password1, email=email,
                                                 first_name=first_name, last_name=last_name)
                 user.save()
-                profile = extraProfileData.objects.create(user=user, authLevel=1, mobile=mobile,instituteName=instituteName, idproof=uploaded_file_url)
+                profile = extraProfileData.objects.create(user=user, authLevel=1, mobile=mobile,
+                                                          instituteName=instituteName, idproof=uploaded_file_url)
                 profile.save()
                 print('User Created')
                 return render(request, 'createLogin.html', {'error_message': 'User Created', })
@@ -93,7 +96,7 @@ def createDashboard(request):
     # if not request.user.is_authenticated():
     #     return redirect(createLogin())
     data = extraProfileData.objects.get(pk=request.user.id)
-    context ={
+    context = {
         'data': data
     }
     return render(request, 'createDashboard.html', context)
@@ -122,8 +125,8 @@ def instituteLogin(request):
                 return redirect(logout)
         else:
             messages.info(request, 'Invalid')
-            return render(request, 'institutelogin.html',{
-                    'error_message': ' Login Failed! Enter the username and password correctly', })
+            return render(request, 'institutelogin.html', {
+                'error_message': ' Login Failed! Enter the username and password correctly', })
     else:
         return render(request, 'institutelogin.html')
 
@@ -168,37 +171,37 @@ def instituteRegister(request):
 
 @login_required(login_url='/institute/login')
 def instituteDashboard(request):
-    # --->filtering profiles with authlevel 2
-    institute_name = extraProfileData.objects.get(user_id=request.user.id)
-    institute_name = institute_name.instituteName
-    createUser = extraProfileData.objects.filter(authLevel=1, instituteName=institute_name)
-    print(createUser, "++++++++++++++")
-    createDetails = []
-    # --->creating a list of data with primary user data and extra data to pass to html
-    for user in createUser:
-        # print(user)
-        createUserDetails = User.objects.get(id=user.user_id)
-        # print(createDetails.first_name)
-        createDetails.append(
-            [user.user_id, createUserDetails.first_name, createUserDetails.last_name, createUserDetails.email,
-             user.mobile, user.idproof, user.approved])
-    # print(createDetails)
-    context = {'data': createDetails}
-    if request.method == "POST":
-        submitValue = request.POST['action']
-        operation, userID = submitValue.split(" ")
-        extraProfileData.objects.update()
-        print(operation, userID, "==============")
-        if operation == "Approve":
-            extraProfileData.objects.filter(pk=userID).update(approved=1)
-        elif operation == "Deny":
-            extraProfileData.objects.filter(pk=userID).update(approved=2)
-        elif operation == "TempDeny":
-            extraProfileData.objects.filter(pk=userID).update(approved=0)
-        return redirect(instituteDashboard)
-    extraData = extraProfileData.objects.get(pk=request.user.id)
-    context['authUser']=extraData
     if extraProfileData.objects.get(pk=request.user.id).authLevel == 2:
+        # --->filtering profiles with authlevel 1
+        institute_name = extraProfileData.objects.get(user_id=request.user.id)
+        institute_name = institute_name.instituteName
+        createUser = extraProfileData.objects.filter(authLevel=1, instituteName=institute_name)
+        print(createUser, "++++++++++++++")
+        createDetails = []
+        # --->creating a list of data with primary user data and extra data to pass to html
+        for user in createUser:
+            # print(user)
+            createUserDetails = User.objects.get(id=user.user_id)
+            # print(createDetails.first_name)
+            createDetails.append(
+                [user.user_id, createUserDetails.first_name, createUserDetails.last_name, createUserDetails.email,
+                 user.mobile, user.idproof, user.approved])
+        # print(createDetails)
+        context = {'data': createDetails}
+        if request.method == "POST":
+            submitValue = request.POST['action']
+            operation, userID = submitValue.split(" ")
+            extraProfileData.objects.update()
+            print(operation, userID, "==============")
+            if operation == "Approve":
+                extraProfileData.objects.filter(pk=userID).update(approved=1)
+            elif operation == "Deny":
+                extraProfileData.objects.filter(pk=userID).update(approved=2)
+            elif operation == "TempDeny":
+                extraProfileData.objects.filter(pk=userID).update(approved=0)
+            return redirect(instituteDashboard)
+        extraData = extraProfileData.objects.get(pk=request.user.id)
+        context['authUser'] = extraData
         return render(request, 'instituteDashboard.html', context)
     else:
         auth.logout(request)
@@ -211,35 +214,50 @@ def verify(request):
     return render(request, 'verify.html')
 
 
+@login_required(login_url='/admin')
 def authenticateInstitute(request):
-    # --->filtering profiles with authlevel 2
-    instituteUser = extraProfileData.objects.filter(authLevel=2)
-    print(instituteUser, "++++++++++++++")
-    instituteDetails = []
-    # --->creating a list of data with primary user data and extra data to pass to html
-    for user in instituteUser:
-        # print(user)
-        instituteUserDetails = User.objects.get(id=user.user_id)
-        # print(instituteDetails.first_name)
-        instituteDetails.append(
-            [user.user_id, instituteUserDetails.first_name, instituteUserDetails.last_name, instituteUserDetails.email,
-             user.mobile, user.idproof, user.approved])
-    # print(instituteDetails)
-    context = {'data': instituteDetails}
-    if request.method == "POST":
-        submitValue = request.POST['action']
-        operation, userID = submitValue.split(" ")
-        extraProfileData.objects.update()
-        print(operation, userID, "==============")
-        if operation == "Approve":
-            extraProfileData.objects.filter(pk=userID).update(approved=1)
-        elif operation == "Deny":
-            extraProfileData.objects.filter(pk=userID).update(approved=2)
-        elif operation == "TempDeny":
-            extraProfileData.objects.filter(pk=userID).update(approved=0)
-        return redirect(authenticateInstitute)
-    return render(request, 'authenticateInstitute1.html', context)
+    if request.user.is_staff:
+        # ---> filtering profiles with authlevel 2
+        instituteUser = extraProfileData.objects.filter(authLevel=2)
+        print(instituteUser, "++++++++++++++")
+        instituteDetails = []
+        # --->creating a list of data with primary user data and extra data to pass to html
+        for user in instituteUser:
+            # print(user)
+            instituteUserDetails = User.objects.get(id=user.user_id)
+            # print(instituteDetails.first_name)
+            instituteDetails.append(
+                [user.user_id, instituteUserDetails.first_name, instituteUserDetails.last_name, instituteUserDetails.email,
+                 user.mobile, user.idproof, user.approved])
+        # print(instituteDetails)
+        context = {'data': instituteDetails}
+        if request.method == "POST":
+            submitValue = request.POST['action']
+            operation, userID = submitValue.split(" ")
+            extraProfileData.objects.update()
+            print(operation, userID, "==============")
+            if operation == "Approve":
+                extraProfileData.objects.filter(pk=userID).update(approved=1)
+            elif operation == "Deny":
+                extraProfileData.objects.filter(pk=userID).update(approved=2)
+            elif operation == "TempDeny":
+                extraProfileData.objects.filter(pk=userID).update(approved=0)
+            return redirect(authenticateInstitute)
+        return render(request, 'authenticateInstitute1.html', context)
+    else:
+        return redirect(welcome)
 
 
 def error(request):
-    return render(request,'404.html')
+    return render(request, '404.html')
+
+
+@login_required(login_url='/')
+def profile(request, message):
+    if request.method == 'POST':
+        if request.POST['action'] == 'delete':
+            u = request.user
+            u.delete()
+            return redirect(welcome)
+    return render(request, 'profile.html')
+

@@ -13,11 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from verifycertify import views
 
@@ -44,12 +43,14 @@ urlpatterns = [
     path("institute/login/", views.instituteLogin, name="instituteLogin"),
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
     path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
+    re_path(r'^(institute|create)/profile/', views.profile ,name="profile"),
 
     path("logout/", views.logout, name="logout"),
     path("authenticateInstitute/", views.authenticateInstitute, name="authenticateInstitute"),
     path("verify/", views.verify, name="verify"),
     path("error/", views.error,name="error")
 ]
+
 #
 # handler404 = 'django_social_app.views.page_not_found'
 # handler500 = 'django_social_app.views.internal_server_error'

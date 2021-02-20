@@ -22,18 +22,21 @@
 
 <!-- Header -->
 
-<header class="w3-container w3-theme w3-padding" id="myHeader">
+<header class="w3-container w3-theme w3-padding w3-teal" id="myHeader">
     <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
-    <div class="w3-bar">
+    <div class="w3-bar ">
         <div class="w3-bar-item w3-right">
             {% if user.is_authenticated %}
 
-                <h2>
-                    <li>Hello, {{ user.first_name }}</li>
-                </h2>
-                <h2>
-                    <li><a href="/logout">Logout</a></li>
-                </h2>
+                <h4>
+                    Hello, {{ user.first_name }}
+                </h4>
+                <h4>
+                    <a href="../profile">Go to profile</a>
+                </h4>
+                <h4>
+                    <a href="/logout">Logout</a>
+                </h4>
             {% else %}
                 <div class="row">
                     <div class="col-md-8 mx-auto social-container my-2 order-md-1">
@@ -45,7 +48,7 @@
 
     </div>
 
-    </div>
+
 </header>
 <script>
     // Side navigation
