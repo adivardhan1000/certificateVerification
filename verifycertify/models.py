@@ -34,6 +34,7 @@ class NewEventData(models.Model):
     proof5 = models.FileField(upload_to='media/')
     proof5AuthorisedBy = models.CharField(max_length=25)
     totalParticipants = models.IntegerField()
+    status = models.IntegerField(choices=[(0, 'pending'), (1, 'approved')], default=0)
 
 
 

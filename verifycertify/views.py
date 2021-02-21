@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -110,69 +112,103 @@ def createDashboard(request):
 
 @login_required(login_url='/create/login')
 def createNewEvent(request):
-    if request.method == "POST":
+    context = {}
+    if extraProfileData.objects.get(pk=request.user.id).authLevel == 1:
+        if request.method == "POST":
+            context['error_message'] = 'Event created'
+            fs = FileSystemStorage()
+            eventName = "".join([i.capitalize() for i in request.POST['eventName'].split(" ")])
 
-        fs = FileSystemStorage()
-        eventName = "".join([i.capitalize() for i in request.POST['eventName'].split(" ")])
+            eventDescription = request.POST['eventDescription']
+            eventDate = request.POST['eventDate']
+            print("--------------", eventDate)
+            proof1 = request.FILES['proof1']
+            proof1AuthorisedBy = request.POST['proof1AuthorisedBy']
+            ##############################################################
+            extension = proof1.name.split(".")[-1]
+            filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof1"+"."+extension, proof1)
+            uploaded_file_url1 = fs.url(filename)
 
-        eventDescription = request.POST['eventDescription']
-        eventDate = request.POST['date']
-        proof1 = request.FILES['proof1']
-        proof1AuthorisedBy = request.POST['proof1AuthorisedBy']
-        ##############################################################
-        extension = proof1.name.split(".")[-1]
-        filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof1")
-        uploaded_file_url1 = fs.url(filename)
+            tempDate = eventDate.split("-")
+            eventDate = datetime.date(int(tempDate[0]),int(tempDate[1]),int(tempDate[2]))
 
-        if request.POST['proof2']:
-            proof2 = request.FILES['proof2']
-            proof2AuthorisedBy = request.POST['proof2AuthorisedBy']
-            extension = proof2.name.split(".")[-1]
-            filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof2")
-            uploaded_file_url2 = fs.url(filename)
-        if request.POST['proof3']:
-            proof3 = request.FILES['proof3']
-            proof3AuthorisedBy = request.POST['proof3AuthorisedBy']
-            extension = proof3.name.split(".")[-1]
-            filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof3")
-            uploaded_file_url3 = fs.url(filename)
-        if request.POST['proof4']:
-            proof4 = request.FILES['proof4']
-            proof4AuthorisedBy = request.POST['proof4AuthorisedBy']
-            extension = proof4.name.split(".")[-1]
-            filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof4")
-            uploaded_file_url4 = fs.url(filename)
-        if request.POST['proof5']:
-            proof5 = request.FILES['proof5']
-            proof5AuthorisedBy = request.POST['proof5AuthorisedBy']
-            extension = proof5.name.split(".")[-1]
-            filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof5")
-            uploaded_file_url5 = fs.url(filename)
-        totalParticipants = request.POST['totalParticipants']
-        event = createNewEvent.objects.create(
-            eventName=eventName,
-            eventDescription=eventDescription,
-            eventDate=eventDate,
-            proof1=uploaded_file_url1,
-            proof1AuthorisedBy=proof1AuthorisedBy,
-            proof2 = uploaded_file_url2 if 'proof2' in locals() else None,
-            proof2AuthorisedBy = proof2AuthorisedBy if 'proof2' in locals() else None,
-            proof3=uploaded_file_url3 if 'proof3' in locals() else None,
-            proof3AuthorisedBy=proof3AuthorisedBy if 'proof3' in locals() else None,
-            proof4=uploaded_file_url4 if 'proof4' in locals() else None,
-            proof4AuthorisedBy=proof4AuthorisedBy if 'proof4' in locals() else None,
-            proof5=uploaded_file_url5 if 'proof5' in locals() else None,
-            proof5AuthorisedBy=proof5AuthorisedBy if 'proof5' in locals() else None,
-            totalParticipants = totalParticipants
-        )
-        event.save()
-        return redirect(createNewEvent)
-    return render(request, 'createNewEvent.html')
+            if request.POST['proof2']:
+                proof2 = request.FILES['proof2']
+                proof2AuthorisedBy = request.POST['proof2AuthorisedBy']
+                extension = proof2.name.split(".")[-1]
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof2")
+                uploaded_file_url2 = fs.url(filename)
+            if request.POST['proof3']:
+                proof3 = request.FILES['proof3']
+                proof3AuthorisedBy = request.POST['proof3AuthorisedBy']
+                extension = proof3.name.split(".")[-1]
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof3")
+                uploaded_file_url3 = fs.url(filename)
+            if request.POST['proof4']:
+                proof4 = request.FILES['proof4']
+                proof4AuthorisedBy = request.POST['proof4AuthorisedBy']
+                extension = proof4.name.split(".")[-1]
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof4")
+                uploaded_file_url4 = fs.url(filename)
+            if request.POST['proof5']:
+                proof5 = request.FILES['proof5']
+                proof5AuthorisedBy = request.POST['proof5AuthorisedBy']
+                extension = proof5.name.split(".")[-1]
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof5")
+                uploaded_file_url5 = fs.url(filename)
+            totalParticipants = request.POST['totalParticipants']
+            event = NewEventData.objects.create(
+                user = request.user,
+                eventName=eventName,
+                eventDescription=eventDescription,
+                date=eventDate,
+                proof1=uploaded_file_url1,
+                proof1AuthorisedBy=proof1AuthorisedBy,
+                proof2 = uploaded_file_url2 if 'proof2' in locals() else "None",
+                proof2AuthorisedBy = proof2AuthorisedBy if 'proof2' in locals() else "None",
+                proof3= uploaded_file_url3 if 'proof3' in locals() else "None",
+                proof3AuthorisedBy=proof3AuthorisedBy if 'proof3' in locals() else "None",
+                proof4= uploaded_file_url4 if 'proof4' in locals() else "None",
+                proof4AuthorisedBy=proof4AuthorisedBy if 'proof4' in locals() else "None",
+                proof5= uploaded_file_url5 if 'proof5' in locals() else "None",
+                proof5AuthorisedBy= proof5AuthorisedBy if 'proof5' in locals() else "None",
+                totalParticipants = totalParticipants
+            )
+            event.save()
+            return render(request, 'createNewEvent.html', context)
+        return render(request, 'createNewEvent.html')
+    else:
+        auth.logout(request)
+        return redirect(error)
 
 
 @login_required(login_url='/create/login')
 def createManageEvent(request):
-    return render(request, 'createManageEvent.html')
+    if extraProfileData.objects.get(pk=request.user.id).authLevel == 1:
+        if request.method == "POST":
+            submitValue = request.POST['action']
+            operation, eventID = submitValue.split(" ")
+            if operation == 'Delete':
+                # deleteing file
+                tempEventData = NewEventData.objects.get(pk=int(eventID))
+                fs = FileSystemStorage()
+                filename = str(tempEventData.proof1)
+                print(filename)
+                filename = filename.split("/")[-1]
+                fs.delete(filename)
+                # deleting event
+                NewEventData.objects.filter(pk=int(eventID)).delete()
+                return redirect(createManageEvent)
+        context = {}
+        allEvents = NewEventData.objects.filter(user_id=request.user.id)
+        eventData = []
+        for event in allEvents:
+            eventData.append([event.id,event.eventName,event.eventDescription,event.date,'Approved' if event.status == 1 else 'Pending'])
+        context['data'] = eventData
+        return render(request, 'createManageEvent.html', context)
+    else:
+        auth.logout(request)
+        return redirect(error)
 
 
 
