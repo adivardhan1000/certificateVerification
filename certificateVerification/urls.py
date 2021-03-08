@@ -45,6 +45,7 @@ urlpatterns = [
     path("institute/login/", views.instituteLogin, name="instituteLogin"),
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
     path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
+    path("institute/dashboard/manageUser/", views.instituteManageUser, name="instituteManageUser"),
     re_path(r'^(institute|create)/profile/', views.profile ,name="profile"),
 
     path("logout/", views.logout, name="logout"),

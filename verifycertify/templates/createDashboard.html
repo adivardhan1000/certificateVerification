@@ -5,9 +5,15 @@
 {% block content %}
     {% if data.approved == 1 %}
         <h1 class="w3-teal w3-center">Approved</h1>
+        <a href="newEvent">
+            <button> Create Event</button>
+        </a>
+        <a href="manageEvent">
+            <button> Manage Event</button>
+        </a>
     {% else %}
-        <h1 class="w3-red w3-center">Not Approved. Please get in touch with the institute administrator you registered with.</h1>
+        <h1 class="w3-red w3-center">Not Approved. Please get in touch with the institute administrator you registered
+            with.</h1>
     {% endif %}
-    <a href="newEvent"><button> Create Event</button></a>
-    <a href="manageEvent"><button> Manage Event</button></a>
+
 {% endblock %}

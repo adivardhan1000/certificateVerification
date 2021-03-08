@@ -280,12 +280,24 @@ def instituteRegister(request):
 
 @login_required(login_url='/institute/login')
 def instituteDashboard(request):
+    context = {}
     if extraProfileData.objects.get(pk=request.user.id).authLevel == 2:
         # --->filtering profiles with authlevel 1
+        context['data'] = extraProfileData.objects.get(pk=request.user.id)
+        print("------------",context['data'].approved)
+        return render(request, 'instituteDashboard.html', context)
+    else:
+        auth.logout(request)
+        return redirect(error)
+
+
+@login_required(login_url='/institute/login')
+def instituteManageUser(request):
+    if request.META.get('HTTP_REFERER') == "http://localhost:8000/institute/dashboard/" and  extraProfileData.objects.get(pk=request.user.id).authLevel == 2:
         institute_name = extraProfileData.objects.get(user_id=request.user.id)
         institute_name = institute_name.instituteName
         createUser = extraProfileData.objects.filter(authLevel=1, instituteName=institute_name)
-        print(createUser, "++++++++++++++")
+        # print(createUser, "++++++++++++++")
         createDetails = []
         # --->creating a list of data with primary user data and extra data to pass to html
         for user in createUser:
@@ -301,7 +313,7 @@ def instituteDashboard(request):
             submitValue = request.POST['action']
             operation, userID = submitValue.split(" ")
             extraProfileData.objects.update()
-            print(operation, userID, "==============")
+            # print(operation, userID, "==============")
             if operation == "Approve":
                 extraProfileData.objects.filter(pk=userID).update(approved=1)
             elif operation == "Deny":
@@ -311,11 +323,10 @@ def instituteDashboard(request):
             return redirect(instituteDashboard)
         extraData = extraProfileData.objects.get(pk=request.user.id)
         context['authUser'] = extraData
-        return render(request, 'instituteDashboard.html', context)
+        return render(request, 'instituteManageUsers.html', context)
     else:
         auth.logout(request)
         return redirect(error)
-
 
 def verify(request):
     if request.method == "POST":
