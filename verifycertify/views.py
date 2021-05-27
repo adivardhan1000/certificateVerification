@@ -133,25 +133,25 @@ def createNewEvent(request):
                 proof2 = request.FILES['proof2']
                 proof2AuthorisedBy = request.POST['proof2AuthorisedBy']
                 extension = proof2.name.split(".")[-1]
-                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof2")
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof2"+"."+extension, proof2)
                 uploaded_file_url2 = fs.url(filename)
             if request.POST['proof3']:
                 proof3 = request.FILES['proof3']
                 proof3AuthorisedBy = request.POST['proof3AuthorisedBy']
                 extension = proof3.name.split(".")[-1]
-                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof3")
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof3"+"."+extension, proof3)
                 uploaded_file_url3 = fs.url(filename)
             if request.POST['proof4']:
                 proof4 = request.FILES['proof4']
                 proof4AuthorisedBy = request.POST['proof4AuthorisedBy']
                 extension = proof4.name.split(".")[-1]
-                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof4")
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof4"+"."+extension, proof4)
                 uploaded_file_url4 = fs.url(filename)
             if request.POST['proof5']:
                 proof5 = request.FILES['proof5']
                 proof5AuthorisedBy = request.POST['proof5AuthorisedBy']
                 extension = proof5.name.split(".")[-1]
-                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof5")
+                filename = fs.save(str(request.user.id) + "_" + eventName + "_" + "proof5"+"."+extension, proof5)
                 uploaded_file_url5 = fs.url(filename)
             totalParticipants = request.POST['totalParticipants']
             event = NewEventData.objects.create(
@@ -161,13 +161,13 @@ def createNewEvent(request):
                 date=eventDate,
                 proof1=uploaded_file_url1,
                 proof1AuthorisedBy=proof1AuthorisedBy,
-                proof2 = uploaded_file_url2 if 'proof2' in locals() else "None",
+                proof2 =uploaded_file_url2 if 'proof2' in locals() else "None",
                 proof2AuthorisedBy = proof2AuthorisedBy if 'proof2' in locals() else "None",
-                proof3= uploaded_file_url3 if 'proof3' in locals() else "None",
+                proof3=uploaded_file_url3 if 'proof3' in locals() else "None",
                 proof3AuthorisedBy=proof3AuthorisedBy if 'proof3' in locals() else "None",
-                proof4= uploaded_file_url4 if 'proof4' in locals() else "None",
+                proof4=uploaded_file_url4 if 'proof4' in locals() else "None",
                 proof4AuthorisedBy=proof4AuthorisedBy if 'proof4' in locals() else "None",
-                proof5= uploaded_file_url5 if 'proof5' in locals() else "None",
+                proof5=uploaded_file_url5 if 'proof5' in locals() else "None",
                 proof5AuthorisedBy= proof5AuthorisedBy if 'proof5' in locals() else "None",
                 totalParticipants = totalParticipants
             )
