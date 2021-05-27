@@ -50,7 +50,7 @@ def createLogin(request):
 
 def createRegister(request):
     instituteNames = extraProfileData.objects.values_list('instituteName').filter(authLevel=2, approved=1)
-    print(instituteNames[0][0])
+    #print(instituteNames[0][0])
     context = {
         'data': instituteNames,
     }

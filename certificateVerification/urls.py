@@ -24,15 +24,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-
-    # path("afterlogin/", views.create, name="afterlogin"),
-    # path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    # path('social-auth/', include('social_django.urls', namespace="social")),
-    # path("getprofiledata/",views.getprofiledata,name="getprofiledata"),
-    # path("home/", views.home, name="home"),
-    # path("check/", views.check, name="check"),
-    # path("checking/", views.check, name="checking"),
     path('admin/', admin.site.urls),
     path("", views.welcome, name="welcome"),
     path("create/", views.create, name="create"),
@@ -46,7 +37,7 @@ urlpatterns = [
     path("institute/register/", views.instituteRegister, name="instituteRegister"),
     path("institute/dashboard/", views.instituteDashboard, name="instituteDashboard"),
     path("institute/dashboard/manageUser/", views.instituteManageUser, name="instituteManageUser"),
-    re_path(r'^(institute|create)/profile/', views.profile ,name="profile"),
+    re_path(r'^(institute|create)/profile/', views.profile, name="profile"),
 
     path("logout/", views.logout, name="logout"),
     path("authenticateInstitute/", views.authenticateInstitute, name="authenticateInstitute"),
