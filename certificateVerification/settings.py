@@ -37,10 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles'
 ]
-'''INSTALLED_APPS +=[
-    'social_django',  # add this
-    'django_social_app'  # add this
-]'''
+
 INSTALLED_APPS+=['verifycertify']
 
 MIDDLEWARE = [
@@ -66,16 +63,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'social_django.context_processors.backends',
-                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 AUTHENTICATION_BACKENDS = [
-    # 'social_core.backends.facebook.FacebookOAuth2',
-    # 'social_core.backends.instagram.InstagramOAuth2',
-    # 'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -83,13 +75,7 @@ WSGI_APPLICATION = 'certificateVerification.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -137,44 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
-
-
-'''
-LOGIN_URL = 'create'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = 'welcome'
-
-SOCIAL_AUTH_FACEBOOK_KEY = '2827384690807483'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'ab4b4434770ca224dcdae1dcccb41117'
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']  # add this
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {  # add this
-    'fields': 'id, name, email, picture.type(large), link'
-}
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [  # add this
-    ('name', 'name'),
-    ('email', 'email'),
-    ('picture', 'picture'),
-    ('link', 'profile_url'),
-]
-
-SOCIAL_AUTH_GITHUB_KEY = 'bdf3365e9568e45a6db6'
-SOCIAL_AUTH_GITHUB_SECRET = 'f0a550bdffa159d0b786fc2a2c62e5536ad26cb2'
-
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.create_user',
-    'django_social_app.pipeline.requestprofiledata',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-)
-'''
-#SOCIAL_AUTH_USER_MODEL = 'django_social_app.profiledata'

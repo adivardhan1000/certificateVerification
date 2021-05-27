@@ -10,8 +10,8 @@ from django.conf import settings
 from .forms import UploadFileForm
 from django.core.files.storage import FileSystemStorage
 
-
-# Create your views here.
+CREATE_CERTIFICATE_REGISTER_PAGE = 'createRegister.html'
+CREATE_CERTIFICATE_LOGIN_PAGE = 'createLogin.html'
 
 
 def welcome(request):
@@ -23,8 +23,6 @@ def create(request):
 
 
 def createLogin(request):
-    # if request.user.is_authenticated():
-    #    return redirect('createDashboard')
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -38,19 +36,18 @@ def createLogin(request):
                 print('=========================')
                 return redirect(createDashboard)
             else:
-                return render(request, 'createLogin.html', {
+                return render(request, CREATE_CERTIFICATE_LOGIN_PAGE, {
                     'error_message': ' Login Failed! Not authorised.', })
         else:
             messages.info(request, 'Invalid')
-            return render(request, 'createLogin.html', {
+            return render(request, CREATE_CERTIFICATE_LOGIN_PAGE, {
                 'error_message': ' Login Failed! Enter the username and password correctly', })
     else:
-        return render(request, 'createLogin.html', )
+        return render(request, CREATE_CERTIFICATE_LOGIN_PAGE, )
 
 
 def createRegister(request):
     instituteNames = extraProfileData.objects.values_list('instituteName').filter(authLevel=2, approved=1)
-    #print(instituteNames[0][0])
     context = {
         'data': instituteNames,
     }
@@ -67,10 +64,10 @@ def createRegister(request):
         if password1 == password2:
             if User.objects.filter(username=username).exists():
                 messages.info(request, 'Username taken')
-                return render(request, 'createRegister.html', {'error_message': 'Username Taken', })
+                return render(request, CREATE_CERTIFICATE_REGISTER_PAGE, {'error_message': 'Username Taken', })
             elif User.objects.filter(email=email).exists():
                 messages.info(request, 'Email taken')
-                return render(request, 'createRegister.html', {'error_message': 'E-Mail Taken', })
+                return render(request, CREATE_CERTIFICATE_REGISTER_PAGE, {'error_message': 'E-Mail Taken', })
             else:
                 fs = FileSystemStorage()
                 extension = idproof.name.split(".")[-1]
@@ -88,7 +85,7 @@ def createRegister(request):
             print('User not created')
             return render(request, 'createLogin.html', {'error_message': 'Password doesn\'t match', })
 
-    return render(request, 'createRegister.html', context)
+    return render(request, CREATE_CERTIFICATE_REGISTER_PAGE, context)
 
 
 @login_required(login_url='/create/login')

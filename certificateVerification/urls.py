@@ -45,8 +45,4 @@ urlpatterns = [
     path("error/", views.error,name="error")
 ]
 
-#
-# handler404 = 'django_social_app.views.page_not_found'
-# handler500 = 'django_social_app.views.internal_server_error'
-#
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
